@@ -104,5 +104,68 @@ db.avaliacoes.insertMany([
 
 ---
 
-## 3. Consultas, Atualizações e Deleções
-*(mantidos conforme documento anterior)*
+## 3. Consultas
+```javascript
+// Listar todos os produtos da categoria "Smartphones"
+db.produtos.find({ categoria: "Smartphone" });
+
+// Buscar clientes com idade maior que 30
+db.clientes.find({ idade: { $gt: 30 } });
+
+// Ordenar pedidos por data de forma decrescente
+db.pedidos.find().sort({ data: -1 });
+
+// Encontrar avaliações com nota maior ou igual a 4
+db.avaliacoes.find({ nota: { $gte: 4 } });
+
+// Usar aggregate: total gasto por cliente
+db.pedidos.aggregate([
+  { $group: { _id: "$cliente_id", total_gasto: { $sum: "$valor_total" } } }
+]);
+```
+
+---
+## 4. Atualizações
+```javascript
+// Atualizar preço de um produto específico
+db.produtos.updateOne(
+  { nome: "Smartphone X" },
+  { $set: { preco: 2800.00 } }
+);
+
+// Atualizar estoque de todos os notebooks
+db.produtos.updateMany(
+  { categoria: "Notebook" },
+  { $inc: { estoque: 5 } }
+);
+
+// Alterar endereço de um cliente
+db.clientes.updateOne(
+  { nome: "João Silva" },
+  { $set: { endereco: "Rua Nova, 123" } }
+);
+
+// Atualizar status de um pedido para "Enviado"
+db.pedidos.updateOne(
+  { _id: ObjectId("ID_DO_PEDIDO") },
+  { $set: { status: "Enviado" } }
+);
+```
+---
+## 5. Exclusões
+```javascript
+// Remover um produto específico
+db.produtos.deleteOne({ nome: "Tablet Y" });
+
+// Remover todos os clientes menores de 18 anos
+db.clientes.deleteMany({ idade: { $lt: 18 } });
+
+// Excluir pedidos com valor total igual a zero
+db.pedidos.deleteMany({ valor_total: 0 });
+
+// Deletar avaliações com nota menor que 2
+db.avaliacoes.deleteMany({ nota: { $lt: 2 } });
+
+// Excluir fornecedor que não entrega mais
+db.fornecedores.deleteOne({ nome: "Fornecedor A" });
+```
