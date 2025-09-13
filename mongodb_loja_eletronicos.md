@@ -106,6 +106,7 @@ db.avaliacoes.insertMany([
 
 ## 3. Consultas
 ```javascript
+
 // Listar todos os produtos da categoria "Smartphones"
 db.produtos.find({ categoria: "Smartphone" });
 
@@ -120,7 +121,7 @@ db.avaliacoes.find({ nota: { $gte: 4 } });
 
 // Usar aggregate: total gasto por cliente
 db.pedidos.aggregate([
-  { $group: { _id: "$cliente_id", total_gasto: { $sum: "$valor_total" } } }
+  { $group: { _id: "$clienteId", total_gasto: { $sum: "$total" } } }
 ]);
 ```
 
@@ -135,7 +136,7 @@ db.produtos.updateOne(
 
 // Atualizar estoque de todos os notebooks
 db.produtos.updateMany(
-  { categoria: "Notebook" },
+  { categoria: "Notebooks" },
   { $inc: { estoque: 5 } }
 );
 
@@ -161,7 +162,7 @@ db.produtos.deleteOne({ nome: "Tablet Y" });
 db.clientes.deleteMany({ idade: { $lt: 18 } });
 
 // Excluir pedidos com valor total igual a zero
-db.pedidos.deleteMany({ valor_total: 0 });
+db.pedidos.deleteMany({ total: 0 });
 
 // Deletar avaliações com nota menor que 2
 db.avaliacoes.deleteMany({ nota: { $lt: 2 } });
